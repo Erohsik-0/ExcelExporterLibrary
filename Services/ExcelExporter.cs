@@ -14,7 +14,7 @@ namespace ExportExcel.Services
     /// <summary>
     /// Core Excel export service implementation
     /// </summary>
-    public class ExcelExporter : IExcelExporter, IAsyncExcelExporter
+    public class ExcelExporterOrchestrator : IExcelExporter, IAsyncExcelExporter
     {
         private readonly IWorksheetManager _worksheetManager;
         private readonly IJsonFlattener _jsonFlattener;
@@ -22,7 +22,7 @@ namespace ExportExcel.Services
         private readonly IDataValidator _validator;
         private readonly ExcelExportOptions _options;
 
-        public ExcelExporter(
+        public ExcelExporterOrchestrator(
             IWorksheetManager worksheetManager,
             IJsonFlattener jsonFlattener,
             IStructureAnalyzer structureAnalyzer,

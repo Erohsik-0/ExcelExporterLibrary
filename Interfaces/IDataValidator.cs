@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using ExportExcel.Models;
+using System.Collections.Generic;
+
 
 namespace ExportExcel.Interfaces
 {

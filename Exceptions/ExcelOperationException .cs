@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace ExportExcel.Exceptions
 {
     /// <summary>
     /// Base exception for all Excel export/import operations
     /// </summary>
-    [Serializable]
     public class ExcelOperationException : Exception
     {
         public string OperationType { get; }
@@ -31,27 +29,11 @@ namespace ExportExcel.Exceptions
             OperationType = operationType;
             Context = context;
         }
-
-#pragma warning disable SYSLIB0051 // Type or member is obsolete
-        protected ExcelOperationException(SerializationInfo info, StreamingContext context) : base(info, context)
-#pragma warning restore SYSLIB0051 // Type or member is obsolete
-        {
-            OperationType = info.GetString(nameof(OperationType));
-            Context = info.GetValue(nameof(Context), typeof(object));
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue(nameof(OperationType), OperationType);
-            info.AddValue(nameof(Context), Context);
-        }
     }
 
     /// <summary>
     /// Exception thrown when Excel export operations fail
     /// </summary>
-    [Serializable]
     public class ExcelExportException : ExcelOperationException
     {
         public int? RecordCount { get; }
@@ -76,25 +58,11 @@ namespace ExportExcel.Exceptions
             SheetName = sheetName;
             RecordCount = recordCount;
         }
-
-        protected ExcelExportException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            RecordCount = (int?)info.GetValue(nameof(RecordCount), typeof(int?));
-            SheetName = info.GetString(nameof(SheetName));
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue(nameof(RecordCount), RecordCount);
-            info.AddValue(nameof(SheetName), SheetName);
-        }
     }
 
     /// <summary>
     /// Exception thrown when Excel import operations fail
     /// </summary>
-    [Serializable]
     public class ExcelImportException : ExcelOperationException
     {
         public string WorksheetName { get; }
@@ -131,23 +99,6 @@ namespace ExportExcel.Exceptions
                 : null;
         }
 
-        protected ExcelImportException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            WorksheetName = info.GetString(nameof(WorksheetName));
-            RowNumber = (int?)info.GetValue(nameof(RowNumber), typeof(int?));
-            ColumnNumber = (int?)info.GetValue(nameof(ColumnNumber), typeof(int?));
-            CellReference = info.GetString(nameof(CellReference));
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue(nameof(WorksheetName), WorksheetName);
-            info.AddValue(nameof(RowNumber), RowNumber);
-            info.AddValue(nameof(ColumnNumber), ColumnNumber);
-            info.AddValue(nameof(CellReference), CellReference);
-        }
-
         /// <summary>
         /// Converts column number to Excel column name (A, B, C, ... AA, AB, etc.)
         /// </summary>
@@ -167,7 +118,6 @@ namespace ExportExcel.Exceptions
     /// <summary>
     /// Exception thrown when JSON parsing fails during Excel operations
     /// </summary>
-    [Serializable]
     public class JsonParsingException : ExcelOperationException
     {
         public string JsonFragment { get; }
@@ -196,27 +146,11 @@ namespace ExportExcel.Exceptions
             LineNumber = lineNumber;
             Position = position;
         }
-
-        protected JsonParsingException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            JsonFragment = info.GetString(nameof(JsonFragment));
-            LineNumber = (int?)info.GetValue(nameof(LineNumber), typeof(int?));
-            Position = (int?)info.GetValue(nameof(Position), typeof(int?));
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue(nameof(JsonFragment), JsonFragment);
-            info.AddValue(nameof(LineNumber), LineNumber);
-            info.AddValue(nameof(Position), Position);
-        }
     }
 
     /// <summary>
     /// Exception thrown when data validation fails
     /// </summary>
-    [Serializable]
     public class DataValidationException : ExcelOperationException
     {
         public string PropertyName { get; }
@@ -245,27 +179,11 @@ namespace ExportExcel.Exceptions
             InvalidValue = invalidValue;
             ValidationRules = validationRules;
         }
-
-        protected DataValidationException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            PropertyName = info.GetString(nameof(PropertyName));
-            InvalidValue = info.GetValue(nameof(InvalidValue), typeof(object));
-            ValidationRules = (string[])info.GetValue(nameof(ValidationRules), typeof(string[]));
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue(nameof(PropertyName), PropertyName);
-            info.AddValue(nameof(InvalidValue), InvalidValue);
-            info.AddValue(nameof(ValidationRules), ValidationRules);
-        }
     }
 
     /// <summary>
     /// Exception thrown when worksheet operations fail
     /// </summary>
-    [Serializable]
     public class WorksheetException : ExcelOperationException
     {
         public string WorksheetName { get; }
@@ -290,25 +208,11 @@ namespace ExportExcel.Exceptions
             WorksheetName = worksheetName;
             WorksheetOperation = operation;
         }
-
-        protected WorksheetException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            WorksheetName = info.GetString(nameof(WorksheetName));
-            WorksheetOperation = info.GetString(nameof(WorksheetOperation));
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue(nameof(WorksheetName), WorksheetName);
-            info.AddValue(nameof(WorksheetOperation), WorksheetOperation);
-        }
     }
 
     /// <summary>
     /// Exception thrown when structure analysis fails
     /// </summary>
-    [Serializable]
     public class StructureAnalysisException : ExcelOperationException
     {
         public string StructureType { get; }
@@ -333,19 +237,5 @@ namespace ExportExcel.Exceptions
             StructureType = structureType;
             RecordIndex = recordIndex;
         }
-
-        protected StructureAnalysisException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            StructureType = info.GetString(nameof(StructureType));
-            RecordIndex = info.GetInt32(nameof(RecordIndex));
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue(nameof(StructureType), StructureType);
-            info.AddValue(nameof(RecordIndex), RecordIndex);
-        }
     }
-
 }
